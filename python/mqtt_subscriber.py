@@ -10,7 +10,8 @@ import numpy as np
 reader = easyocr.Reader(['en'])
 broker = 'broker.emqx.io'
 port = 1883
-topic = "MinesOCR/BoardImage"
+board_image_topic = "MinesOCR/BoardImage"
+prediction_topic = "MinesOCR/Prediction"
 # generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 100)}'
 # username = 'emqx'
@@ -30,25 +31,29 @@ def connect_mqtt() -> mqtt_client:
     return client
 
 
-def subscribe(client: mqtt_client):
+def subscribe_img_topic(client: mqtt_client):
     def on_message(client, userdata, msg):
-        print("RECIBI UN MENSAJE!!")
         content = msg.payload
-        print("Content Type: "+str(type(content)))
-        print("Content Length: "+str(len(content)))
         np_arr = np.frombuffer(content, np.uint8)
         image = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
         results = reader.readtext(image)
         ans = " ".join([res[1] for res in results])
         print(f"Received `{ans}` from `{msg.topic}` topic")
 
-    client.subscribe(topic)
+    client.subscribe(board_image_topic)
     client.on_message = on_message
 
+def subscribe_prediction_topic(client: mqtt_client):
+    def on_message(client, userdata, msg):
+        recognized_text = msg.payload.decode()
+        print(f"Received `{recognized_text}` from `{msg.topic}` topic")
+
+    client.subscribe(prediction_topic)
+    client.on_message = on_message
 
 def run():
     client = connect_mqtt()
-    subscribe(client)
+    subscribe_prediction_topic(client)
     client.loop_forever()
 
 

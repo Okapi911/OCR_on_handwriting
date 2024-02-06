@@ -33,14 +33,27 @@ def load_data():
     loaded_data = np.load(data_file_path)
     return loaded_data
 
+
 def save_data(data):
     np.save(data_file_path, data)
 
-def publish(client, image_path='img/asd.jpeg'):
-    file = open(image_path,"rb")
-    fileContent = file.read()
-    byteArray = bytearray(fileContent)
-    file.close()
+
+def publish_prediction(client, text='Ielo, Simly Natezl has Jevelayecl inereol;bl Precidary rabol ; tecbnolgy t scite YOur MeJsage exueloges sifh Jeru;ne Ceel Pen zt "s cow (dtely s;ryuishable Frons a hunans hanclritiry: u5 Sinel  Ncted Rnc/ n~; toJey; Ax'):
+    result_waiting_time = client.publish(prediction_topic, text)
+
+    status_waiting_time = result_waiting_time[0]
+    
+    if status_waiting_time == 0:
+        print(f"Send `{len(text)}` chars to topic `{prediction_topic}`...")
+    else:
+        print(f"Failed to send message to topic {prediction_topic}")
+
+
+def publish(client, byteArray):
+    # file = open(image_path,"rb")
+    # fileContent = file.read()
+    # byteArray = bytearray(fileContent)
+    # file.close()
     result_waiting_time = client.publish(board_image_topic, byteArray)
 
 
@@ -54,7 +67,8 @@ def publish(client, image_path='img/asd.jpeg'):
 def publish_loop(client, image_path='img/asd.jpeg'):
     while True:
         time.sleep(5)
-        publish(client)
+        # publish(client)
+        publish_prediction(client)
 
 def run():
     client = connect_mqtt()
