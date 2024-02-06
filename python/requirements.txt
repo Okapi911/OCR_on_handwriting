@@ -1,0 +1,4 @@
+easyocr
+pyrealsense2
+opencv-python
+paho-mqtt
