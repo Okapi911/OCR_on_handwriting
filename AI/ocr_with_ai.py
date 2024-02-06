@@ -16,12 +16,11 @@ from mltu.torch.metrics import CERMetric, WERMetric
 from mltu.torch.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard, Model2onnx, ReduceLROnPlateau
 
 from mltu.preprocessors import ImageReader
-from mltu.transformers import ImageResizer, LabelIndexer, LabelPadding, ImageShowCV2
+from mltu.transformers import ImageResizer, LabelIndexer, LabelPadding
 from mltu.augmentors import RandomBrightness, RandomRotate, RandomErodeDilate, RandomSharpen
 
 from model import Network
 from configs import ModelConfigs
-#from mltu.preprocessors import CVImage
 
 def download_dataset_IAM(url, extract_to="Datasets", chunk_size=1024*1024):
     http_response = urlopen(url)
@@ -45,7 +44,7 @@ if not os.path.exists(dataset_path):
 
 dataset, vocab, max_len = [], set(), 0
 
-# Preprocess the dataset by the specific IAM_Words dataset file structure
+# Preprocess the dataset by taking into account the specific IAM_Words dataset file structure
 words = open(os.path.join(dataset_path, "words.txt"), "r").readlines()
 for line in tqdm(words):
     if line.startswith("#"):
@@ -57,7 +56,7 @@ for line in tqdm(words):
 
     folder1 = line_split[0][:3]
     folder2 = "-".join(line_split[0].split("-")[:2])
-    file_name = line_split[0] + ".png"
+    file_name = line_split[0] + ".png" #Beware, only png from this point, adapt if necesary to have a better experience when testing
     label = line_split[-1].rstrip("\n")
 
     rel_path = os.path.join(dataset_path, "words", folder1, folder2, file_name)
@@ -76,7 +75,7 @@ configs.vocab = "".join(sorted(vocab))
 configs.max_text_length = max_len
 configs.save()
 
-# Create a data provider for the dataset
+# Create a data provider to store transformed data
 data_provider = DataProvider(
     dataset=dataset,
     skip_validation=True,
@@ -106,15 +105,12 @@ network = Network(len(configs.vocab), activation="leaky_relu", dropout=0.3)
 loss = CTCLoss(blank=len(configs.vocab))
 optimizer = optim.Adam(network.parameters(), lr=configs.learning_rate)
 
-# uncomment to print network summary, torchsummaryX package is required
-#summary(network, torch.zeros((1, configs.height, configs.width, 3)))
-
-# put on cuda device if available
+# put on cuda GPU device if any is available
 if torch.cuda.is_available():
     network = network.cuda()
 
-# create callbacks
-earlyStopping = EarlyStopping(monitor="val_CER", patience=20, mode="min", verbose=1)
+# create callbacks at the end of each epoch to update data or the neural network (especially useful to decrease the learning rate or save copies of the model as a failsafe)
+earlyStopping = EarlyStopping(monitor="val_CER", patience=10, mode="min", verbose=1)
 modelCheckpoint = ModelCheckpoint(configs.model_path + "/model.pt", monitor="val_CER", mode="min", save_best_only=True, verbose=1)
 tb_callback = TensorBoard(configs.model_path + "/logs")
 reduce_lr = ReduceLROnPlateau(monitor="val_CER", factor=0.9, patience=10, verbose=1, mode="min", min_lr=1e-6)
@@ -125,12 +121,12 @@ model2onnx = Model2onnx(
     metadata={"vocab": configs.vocab}
     )
 
-# create model object that will handle training and testing of the network
+# create model (beware, this is not simply a pytorch model with the usual properties) object that will handle training and testing of the network
 model = Model(network, optimizer, loss, metrics=[CERMetric(configs.vocab), WERMetric(configs.vocab)])
 model.fit(
     train_dataProvider, 
     test_dataProvider, 
-    epochs=4, 
+    epochs=200, 
     callbacks=[earlyStopping, modelCheckpoint, tb_callback, reduce_lr, model2onnx]
     )
 

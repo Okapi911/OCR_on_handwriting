@@ -1,11 +1,8 @@
 import os as os
 from datetime import datetime
-
-print(os.getcwd())
-print(os.path.exists(os.path.join("Data")))
-
 from mltu.configs import BaseModelConfigs
 class ModelConfigs(BaseModelConfigs):
+    """Configurations saved to a textual file to know with which model we obtained the results in a sub_repository"""
     def __init__(self):
         super().__init__()
         self.model_path = os.path.join("AI", datetime.strftime(datetime.now(), "%Y%m%d%H%M"))
@@ -15,4 +12,4 @@ class ModelConfigs(BaseModelConfigs):
         self.max_text_length = 0
         self.batch_size = 64
         self.learning_rate = 0.004
-        self.train_epochs = 4
+        self.train_epochs = 200
