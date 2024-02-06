@@ -36,6 +36,7 @@ def download_dataset_IAM(url, extract_to="Datasets", chunk_size=1024*1024):
     zipfile.extractall(path=extract_to)
 
 dataset_path = os.path.join("Data", "IAM_Words")
+print(os.path.exists(dataset_path))
 if not os.path.exists(dataset_path):
     download_dataset_IAM("https://git.io/J0fjL", extract_to="Data")
 
@@ -129,8 +130,8 @@ model = Model(network, optimizer, loss, metrics=[CERMetric(configs.vocab), WERMe
 model.fit(
     train_dataProvider, 
     test_dataProvider, 
-    epochs=2, 
-    #callbacks=[earlyStopping, modelCheckpoint, tb_callback, reduce_lr, model2onnx]
+    epochs=4, 
+    callbacks=[earlyStopping, modelCheckpoint, tb_callback, reduce_lr, model2onnx]
     )
 
 # Save training and validation datasets as csv files
