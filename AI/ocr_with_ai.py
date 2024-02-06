@@ -21,7 +21,7 @@ from mltu.augmentors import RandomBrightness, RandomRotate, RandomErodeDilate, R
 
 from model import Network
 from configs import ModelConfigs
-from mltu.preprocessors import CVImage
+#from mltu.preprocessors import CVImage
 
 def download_dataset_IAM(url, extract_to="Datasets", chunk_size=1024*1024):
     http_response = urlopen(url)
@@ -35,9 +35,9 @@ def download_dataset_IAM(url, extract_to="Datasets", chunk_size=1024*1024):
     zipfile = ZipFile(BytesIO(data))
     zipfile.extractall(path=extract_to)
 
-dataset_path = os.path.join("Interactive_Systems/OCR_on_handwriting/Data", "IAM_Words")
+dataset_path = os.path.join("Data", "IAM_Words")
 if not os.path.exists(dataset_path):
-    download_dataset_IAM("https://git.io/J0fjL", extract_to="Datasets")
+    download_dataset_IAM("https://git.io/J0fjL", extract_to="Data")
 
     file = tarfile.open(os.path.join(dataset_path, "words.tgz"))
     file.extractall(os.path.join(dataset_path, "words"))
@@ -80,7 +80,7 @@ data_provider = DataProvider(
     dataset=dataset,
     skip_validation=True,
     batch_size=configs.batch_size,
-    data_preprocessors=[ImageReader(CVImage)],
+    data_preprocessors=[ImageReader()],
     transformers=[
         # ImageShowCV2(), # uncomment to show images when iterating over the data provider
         ImageResizer(configs.width, configs.height, keep_aspect_ratio=False),
@@ -106,7 +106,7 @@ loss = CTCLoss(blank=len(configs.vocab))
 optimizer = optim.Adam(network.parameters(), lr=configs.learning_rate)
 
 # uncomment to print network summary, torchsummaryX package is required
-summary(network, torch.zeros((1, configs.height, configs.width, 3)))
+#summary(network, torch.zeros((1, configs.height, configs.width, 3)))
 
 # put on cuda device if available
 if torch.cuda.is_available():
@@ -129,8 +129,8 @@ model = Model(network, optimizer, loss, metrics=[CERMetric(configs.vocab), WERMe
 model.fit(
     train_dataProvider, 
     test_dataProvider, 
-    epochs=1000, 
-    callbacks=[earlyStopping, modelCheckpoint, tb_callback, reduce_lr, model2onnx]
+    epochs=2, 
+    #callbacks=[earlyStopping, modelCheckpoint, tb_callback, reduce_lr, model2onnx]
     )
 
 # Save training and validation datasets as csv files
