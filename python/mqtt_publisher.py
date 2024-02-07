@@ -44,7 +44,7 @@ def publish_prediction(client, text='Ielo, Simly Natezl has Jevelayecl inereol;b
     status_waiting_time = result_waiting_time[0]
     
     if status_waiting_time == 0:
-        print(f"Send `{len(text)}` chars to topic `{prediction_topic}`...")
+        print(f"Send `{text}` to topic `{prediction_topic}`...")
     else:
         print(f"Failed to send message to topic {prediction_topic}")
 
