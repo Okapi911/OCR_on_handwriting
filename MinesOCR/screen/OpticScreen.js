@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { StyleSheet, View, Text, Image, Vibration } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  Vibration,
+  ImageBackground,
+} from "react-native";
 import TwoBlackBoxes from "../assets/BlackBoxes";
+import LBoxAndText from "../assets/1Box1Text";
 import Popup from "../assets/PopUp";
 import Button from "../assets/Button";
 import Footer from "../assets/Footer";
@@ -10,10 +18,35 @@ import waitTime from "../assets/WaitTime";
 import PersonBox from "../assets/PersonBox";
 import NavigationButton from "../assets/ChangeScreenButton";
 import { useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-const HomePage = () => {
+const Header2 = ({ text }) => (
+  <View
+    style={[
+      {
+        backgroundColor: "transparent",
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0,
+        textAlign: "center",
+        alignSelf: "center",
+        toppadding: 10,
+        color: "black",
+        fontSize: 24,
+        fontWeight: "bold",
+      },
+      ,
+      { color: "blue" },
+    ]}
+  >
+    <Text style={styles.headerText}>{text}</Text>
+  </View>
+);
+
+const OpticPage = () => {
   const [leftValue, setLeftValue] = useState(1);
-  const [rightValue, setRightValue] = useState(30);
+  const [rightValue, setRightValue] = useState(20);
+  const path = useState("../assets/mines_back.jpg");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [popUpmsg, setPopUpmsg] = useState("Time is up!");
   const [alertState, setalertState] = useState(false);
@@ -85,43 +118,60 @@ const HomePage = () => {
 
   return (
     <View style={styles.container}>
-      <Header text="Optic2Mines" />
-      <Text style={styles.text}>Temps d'attente estimé</Text>
-      <PersonBox nbPeople={peopleInQueue} />
-      <TwoBlackBoxes
-        leftValue={leftValue}
-        rightValue={rightValue.toString().padStart(2, "0")}
-      />
+      <ImageBackground
+        source={require("../assets/mines_back.jpg")}
+        style={styles.container2}
+      >
+        <Header
+          text="Optic2Mines"
+          /*Make its background transparent*/
+        />
+        <Text style={styles.text}>Temps d'attente estimé</Text>
+        <PersonBox nbPeople={peopleInQueue} />
+        <LBoxAndText
+          leftValue={path.toString()}
+          rightValue={rightValue.toString().padStart(2, "0")}
+        />
 
-      <Popup
-        isVisible={isPopupVisible}
-        message={popUpmsg}
-        onClose={onClosePopup}
-      />
-      <Button onPress={onButtonPress} />
-      <NavigationButton
-        navigation={navigation}
-        destination="Optic"
-        title="Mon Timer"
-      />
-      <View style={styles.imageContainer}>
-        {alertState && (leftValue != 0 || rightValue != 0) && (
-          <Image
-            source={require("../assets/belltransparent.gif")}
-            style={styles.gif}
-          />
-        )}
-        {!alertState && (leftValue != 0 || rightValue != 0) && (
-          <Image source={require("../assets/lounge.gif")} style={styles.gif} />
-        )}
-        {!alertState && leftValue === 0 && rightValue === 0 && (
-          <Image source={require("../assets/coffee.gif")} style={styles.gif} />
-        )}
-        {alertState && leftValue === 0 && rightValue === 0 && (
-          <Image source={require("../assets/coffee.gif")} style={styles.gif} />
-        )}
-      </View>
-      <Footer text="Copyright © 2023 Techl@b" />
+        <Popup
+          isVisible={isPopupVisible}
+          message={popUpmsg}
+          onClose={onClosePopup}
+        />
+        <Button onPress={onButtonPress} />
+        <NavigationButton
+          navigation={navigation}
+          destination="Timer"
+          title="Mon Timer"
+        />
+        <View style={styles.imageContainer}>
+          {alertState && (leftValue != 0 || rightValue != 0) && (
+            <Image
+              source={require("../assets/belltransparent.gif")}
+              style={styles.gif}
+            />
+          )}
+          {!alertState && (leftValue != 0 || rightValue != 0) && (
+            <Image
+              source={require("../assets/lounge.gif")}
+              style={styles.gif}
+            />
+          )}
+          {!alertState && leftValue === 0 && rightValue === 0 && (
+            <Image
+              source={require("../assets/coffee.gif")}
+              style={styles.gif}
+            />
+          )}
+          {alertState && leftValue === 0 && rightValue === 0 && (
+            <Image
+              source={require("../assets/coffee.gif")}
+              style={styles.gif}
+            />
+          )}
+        </View>
+        <Footer text="Copyright © 2024 Techl@b" />
+      </ImageBackground>
     </View>
   );
 };
@@ -130,6 +180,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    backgroundColor: "transparent",
+  },
+  container2: {
+    flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -156,4 +215,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default OpticPage;

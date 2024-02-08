@@ -1,19 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomePage from "./screen/HomeScreen";
 import TimerPage from "./screen/TimerScreen";
-
+import OpticPage from "./screen/OpticScreen";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false,}}>
-        <Stack.Screen name="Home" component={HomePage}/>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="Timer" component={TimerPage} />
+        <Stack.Screen name="Optic" component={OpticPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -22,8 +23,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

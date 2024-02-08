@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
 const Footer = ({ text }) => {
   return (
@@ -11,15 +11,15 @@ const Footer = ({ text }) => {
 
 const styles = StyleSheet.create({
   footer: {
-    height: 50,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop:'auto',
+    height: 60,
+    backgroundColor: "transparent",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: "auto",
   },
   text: {
     fontSize: 16,
-    color: '#000',
+    color: "#000",
   },
 });
 

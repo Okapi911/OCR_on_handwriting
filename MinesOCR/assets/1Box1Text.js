@@ -1,5 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { Image } from "react-native";
+import { ImageBackground } from "react-native";
 
 const BlackBox = ({ value }) => {
   return (
@@ -9,20 +11,13 @@ const BlackBox = ({ value }) => {
   );
 };
 
-const ImageBox = ({ src }) => {
+const ImageBox = ({ value }) => {
   return (
     <View style={styles.box}>
-      <Image source={src} style={{ width: 150, height: 150 }} />
-    </View>
-  );
-};
-
-const TwoBlackBoxes = ({ leftValue, rightValue }) => {
-  return (
-    <View style={styles.container}>
-      <BlackBox value={leftValue} />
-      <Text style={styles.colon}>:</Text>
-      <BlackBox value={rightValue} />
+      <Image
+        source={require("../assets/iciNancy.jpg")}
+        style={{ width: 100 }}
+      />
     </View>
   );
 };
@@ -42,6 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 40,
+    borderRadius: 10,
   },
   box: {
     width: 150,
@@ -65,4 +61,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TwoBlackBoxes;
+export default LBoxAndText;

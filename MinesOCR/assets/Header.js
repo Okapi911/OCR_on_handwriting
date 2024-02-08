@@ -11,13 +11,13 @@ const Header = ({ text }) => {
 
 const styles = StyleSheet.create({
   header: {
-    backgroundColor: "white",
-    height: 80,
+    backgroundColor: "transparent",
+    height: 150,
     justifyContent: "center",
     alignItems: "center",
   },
   text: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
   },
 });
