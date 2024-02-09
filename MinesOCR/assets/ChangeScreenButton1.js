@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, StyleSheet, View } from "react-native";
 
-const NavigationButton = ({ navigation, destination, title }) => {
+const NavigationButton1 = ({ navigation, destination, title }) => {
   const onPress = () => {
     navigation.navigate(destination);
   };
@@ -9,7 +9,7 @@ const NavigationButton = ({ navigation, destination, title }) => {
   return (
     <View style={styles.container}>
       <Button
-        title="Follow the lesson in App"
+        title="Retour à l'accueil"
         onPress={onPress}
         color="#b40c00"
         text-color="black"
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NavigationButton;
+export default NavigationButton1;

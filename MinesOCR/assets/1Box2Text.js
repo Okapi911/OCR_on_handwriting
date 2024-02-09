@@ -6,7 +6,7 @@ import { ImageBackground } from "react-native";
 const BlackBox = ({ value }) => {
   return (
     <View style={styles.box2}>
-      <Text style={styles.value}>The great Scar from Boston Dynamics</Text>
+      <Text style={styles.value}>The dumb Unitree from somewhere in China</Text>
     </View>
   );
 };
@@ -15,18 +15,18 @@ const ImageBox = ({ value }) => {
   return (
     <View style={styles.box}>
       <Image
-        source={require("../assets/iciNancy.jpg")}
+        source={require("../assets/unitree.jpg")}
         style={{ width: 150, height: 150, borderRadius: 10 }}
       />
     </View>
   );
 };
 
-const LBoxAndText = ({ leftValue, rightValue }) => {
+const RBoxAndText = ({ leftValue, rightValue }) => {
   return (
     <View style={styles.container}>
-      <ImageBox value={leftValue} />
-      <BlackBox value={rightValue} />
+      <BlackBox value={leftValue} />
+      <ImageBox value={rightValue} />
     </View>
   );
 };
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LBoxAndText;
+export default RBoxAndText;

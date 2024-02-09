@@ -12,9 +12,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Optic" component={OpticPage} />
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="Timer" component={TimerPage} />
-        <Stack.Screen name="Optic" component={OpticPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

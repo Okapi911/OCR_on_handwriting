@@ -1,26 +1,26 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 
-const PersonBox = ({nbPeople}) => {
+const PersonBox = ({ nbPeople }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Il y a actuellement {nbPeople} personnes dans la queue.</Text>
+      <Text style={styles.text}>OCR with robots on Whiteboard Handwriting</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'green',
+    backgroundColor: "green",
     padding: 20,
     borderRadius: 10,
-    marginTop:5,
+    marginTop: 5,
   },
   text: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 22,
+    textAlign: "center",
   },
 });
 

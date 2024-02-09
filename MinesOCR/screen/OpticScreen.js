@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import TwoBlackBoxes from "../assets/BlackBoxes";
 import LBoxAndText from "../assets/1Box1Text";
+import RBoxAndText from "../assets/1Box2Text";
 import Popup from "../assets/PopUp";
 import Button from "../assets/Button";
 import Footer from "../assets/Footer";
@@ -126,23 +127,25 @@ const OpticPage = () => {
           text="Optic2Mines"
           /*Make its background transparent*/
         />
-        <Text style={styles.text}>Temps d'attente estimé</Text>
+        <Text style={styles.text}>Interactive Systems Project</Text>
         <PersonBox nbPeople={peopleInQueue} />
         <LBoxAndText
           leftValue={path.toString()}
           rightValue={rightValue.toString().padStart(2, "0")}
         />
-
+        <RBoxAndText
+          leftValue={path.toString()}
+          rightValue={rightValue.toString().padStart(2, "0")}
+        />
         <Popup
           isVisible={isPopupVisible}
           message={popUpmsg}
           onClose={onClosePopup}
         />
-        <Button onPress={onButtonPress} />
         <NavigationButton
           navigation={navigation}
           destination="Timer"
-          title="Mon Timer"
+          title="Follow the lesson in App"
         />
         <View style={styles.imageContainer}>
           {alertState && (leftValue != 0 || rightValue != 0) && (
@@ -170,7 +173,7 @@ const OpticPage = () => {
             />
           )}
         </View>
-        <Footer text="Copyright © 2024 Techl@b" />
+        <Footer text="" />
       </ImageBackground>
     </View>
   );
