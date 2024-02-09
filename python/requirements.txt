@@ -1,0 +1,9 @@
+easyocr
+pyrealsense2
+opencv-python
+paho-mqtt
+torch
+# tensorboard==2.10.1
+onnx==1.12.0
+# torchsummaryX
+mltu==1.0.2
