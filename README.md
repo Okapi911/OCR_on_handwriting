@@ -14,7 +14,18 @@ Cette bibliothèque permet d'exploiter la puissance des caméras RGB pour captur
 Publication via MQTT: 
 Les résultats de l'OCR, tels que le texte détecté et sa position, sont publiés via le protocole MQTT. Ce mode de communication asynchrone garantit une transmission fluide et flexible des données. Les utilisateurs reçoivent les résultats affichés par le modèle OCR dès qu'ils sont publiés, ce qui assure une distribution en temps réel.
 
-# Prérequis
+# Fonctionnement 
+
+
+Dans notre projet, nous avons conçu deux modèles d'intelligence artificielle pour la reconnaissance de texte en nous basant sur des projets open source existants. 
+
+Le premier modèle : s'appuie sur une architecture GNN (Graph Neural Network) et se caractérisait par un temps de latence minimal. Cependant, il ne permettait pas d'effectuer un fine-tuning, ce qui limitait ses performances pour la reconnaissance des minuscules attachées.
+
+Le deuxième modèle : entraîné à partir de zéro sur le jeu de données IAM words, en adaptant le code et en modifiant la structure du réseau. Bien qu'il fournisse d'excellents résultats pour des mots, même en minuscules, il présentait des limitations pour le traitement des lignes et ne fonctionnait pas pour les paragraphes.
+
+Nous avons choisi le premier modèle afin de réaliser notre projet => En effet, nous avons intégré une caméra indépendante du robot pour traiter le flux vidéo à intervalles réguliers et éviter les perturbations permanentes du texte résultant. Nous avons écrit du texte sur un fond blanc et sous forme de paragraphe, le modèle renvoie au format ligne tous les mots manuscrits tout en préservant l'ordre et la ponctuation. Enfin, ce texte est envoyé à l'application développée avec Expo ce qui permet à l'utilisateur de lire le résultat en temps réel dès qu'ils sont publiés.
+
+# Dépendances et outils utilisés
 Pour arriver à configurer l'environnement de développement nécessaire pour le projet OCR sur écriture manuscrite. Il s'assurer d'installer : 
 
 Python 3.x
